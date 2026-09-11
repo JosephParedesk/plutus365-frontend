@@ -1,0 +1,164 @@
+:root {
+  /* Curva de desaceleración "confiada" — usada en entradas de página.
+     Las microinteracciones de hover/click usan el "all .25s ease" plano
+     que pide el rediseño Soft UI (ver DESIGN.md → Elevation & Depth). */
+  --ease-confident: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Paleta — valores por defecto (modo claro), como red de seguridad antes de
+     que corra el JS. themeStore.ts los pisa (inline, mayor especificidad) al
+     iniciar según lo que haya guardado en localStorage — ver palette.ts, que
+     es la fuente real de estos valores; si cambian ahí, hay que igualarlos acá. */
+  --c-sidebarBg: #FFFFFF;
+  --c-sidebarActiveBg: #4E6F3A;
+  --c-sidebarActiveText: #FFFFFF;
+  --c-sidebarText: #6B746C;
+  --c-sidebarTextMuted: #6B746C;
+  --c-sidebarHoverBg: #F6F8F5;
+  --c-sidebarBorder: #ECEFEA;
+  --c-authPanelBg: #4E6F3A;
+  --c-primary: #4E6F3A;
+  --c-primaryDark: #4E6F3A;
+  --c-primaryHover: #689F38;
+  --c-primaryLight: #C5E1A5;
+  --c-accent: #8BC34A;
+  --c-accentBg: #A5D66A;
+  --c-accentLight: #C5E1A5;
+  --c-purple: #689F38;
+  --c-purpleLight: #A5D66A;
+  --c-orange: #FBC02D;
+  --c-orangeLight: #ECEFEA;
+  --c-red: #ff4d4f;
+  --c-redLight: #fff1f0;
+  --c-heading: #2E3A2F;
+  --c-textSecondary: #6B746C;
+  --c-textMuted: #6B746C;
+  --c-border: #ECEFEA;
+  --c-pageBg: #F6F8F5;
+  --c-cardBg: #FFFFFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Public Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+}
+
+html, body, #root {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--c-pageBg);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar fina y consistente en toda la app (Chrome/Edge + Firefox) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--c-heading) 18%, transparent) transparent;
+}
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--c-heading) 18%, transparent); border-radius: 10px; }
+*::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--c-heading) 32%, transparent); }
+
+/* ── Animaciones compartidas ─────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Transición de entrada de página, aplicada una sola vez en DashboardLayout
+   (cambia de key en cada ruta) y disponible para cualquier página suelta. */
+.page-enter {
+  animation: fadeInUp 0.32s var(--ease-confident) both;
+}
+.fade-in {
+  animation: fadeIn 0.25s var(--ease-confident) both;
+}
+
+/* Microinteracción Soft UI: tarjetas flotan al hover, botones responden con
+   un ligero scale al pasar el mouse y se "hunden" un poco al hacer click. */
+.ant-card {
+  transition: all .25s ease;
+}
+.ant-card-hoverable:hover {
+  transform: translateY(-2px);
+}
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: var(--c-pageBg) !important;
+  transition: background-color .25s ease;
+}
+.ant-btn {
+  transition: all .25s ease;
+}
+.ant-btn:not(:disabled):hover {
+  transform: scale(1.02);
+}
+.ant-btn:not(:disabled):active {
+  transform: translateY(1px) scale(1);
+}
+
+/* Selección del menú lateral: transición suave de color/fondo en vez del
+   salto instantáneo por defecto de AntD (aplica a todos los ítems del riel). */
+.ant-menu-item, .ant-menu-submenu-title {
+  transition: background-color .25s ease, color .25s ease;
+}
+
+/* Cuando la ruta activa es hija de un submenú (ej. "Clientes" dentro de
+   "Documentos de venta"), AntD ya marca el <li> padre con
+   .ant-menu-submenu-selected — pero el riel es solo íconos, así que ese
+   estado no se veía. Se marca con una rayita bajo el ícono del padre,
+   además del resaltado normal del hijo. */
+.ant-menu-submenu-selected > .ant-menu-submenu-title {
+  position: relative;
+}
+.ant-menu-submenu-selected > .ant-menu-submenu-title::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--c-primary);
+}
+
+/* Utilidad compartida: mismo hover-lift de las Card para elementos clicables
+   que no son un <Card> de AntD (banner destacado del dashboard, accesos rápidos). */
+.hover-lift {
+  transition: all .25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Fila de empresa/sesión al pie del riel lateral. */
+.sidebar-footer-trigger {
+  transition: background-color .25s ease;
+}
+.sidebar-footer-trigger:hover {
+  background-color: var(--c-pageBg);
+}
+
+/* Respeta a quien pidió menos movimiento en el sistema operativo */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ant-btn:not(:disabled):hover,
+  .ant-card-hoverable:hover,
+  .hover-lift:hover {
+    transform: none !important;
+  }
+}
