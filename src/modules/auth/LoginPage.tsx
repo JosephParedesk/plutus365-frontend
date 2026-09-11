@@ -112,15 +112,6 @@ const onFinish = async (values: any) => {
                     </Button>
                 </Form>
 
-                <div style={{ textAlign: 'center', marginTop: 24 }}>
-                    <p style={{ color: colors.textMuted, fontSize: 14 }}>
-                        ¿No tienes cuenta?{' '}
-                        <span onClick={() => navigate('/planes')} style={{ color: colors.primary, cursor: 'pointer', fontWeight: 600 }}>
-                            Ver planes
-                        </span>
-                    </p>
-                </div>
-
             <Modal
                 title={<span style={{ color: colors.heading, fontWeight: 700 }}>Recuperar contraseña</span>}
                 open={modalOlvideVisible}

@@ -5,9 +5,6 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/es'
 import { obtenerAntdTheme } from './shared/theme/antdTheme'
 import { useThemeStore } from './shared/store/themeStore'
-import PlanesPage from './modules/auth/PlanesPage'
-import RegistroPage from './modules/auth/RegistroPage'
-import PagoPage from './modules/auth/PagoPage'
 import LoginPage from './modules/auth/LoginPage'
 import RestablecerContrasenaPage from './modules/auth/RestablecerContrasenaPage'
 import DashboardLayout from './shared/components/DashboardLayout'
@@ -53,9 +50,11 @@ function App() {
       <AntApp>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/planes" element={<PlanesPage />} />
-          <Route path="/registro" element={<RegistroPage />} />
-          <Route path="/pago" element={<PagoPage />} />
+          {/* planes/registro/pago deshabilitados temporalmente (2026-09-11):
+              por ahora solo se permite iniciar sesión. */}
+          <Route path="/planes" element={<Navigate to="/login" />} />
+          <Route path="/registro" element={<Navigate to="/login" />} />
+          <Route path="/pago" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/restablecer-contrasena" element={<RestablecerContrasenaPage />} />
 
