@@ -15,7 +15,7 @@ import { empresaService } from '../services/empresaService'
 import { compraService, type Compra } from '../services/compraService'
 import { colors } from '../theme/colors'
 import { puedeVer } from '../utils/permisos'
-import logoPlutus from '../../assets/logo.png'
+import logoPlutusOscuro from '../../assets/logo-oscuro.png'
 
 const { Header, Content } = Layout
 
@@ -244,12 +244,13 @@ export default function DashboardLayout() {
                     boxShadow: '2px 0 6px rgba(0,0,0,.03), 6px 0 30px rgba(0,0,0,.06)',
                 }}
             >
-                {/* Logo — recortado a la altura del riel, sin distorsión */}
+                {/* Logo — completo (con letras), achicado para que el ancho quepa
+                    dentro de los SIDEBAR_WIDTH (72px) sin cortarse. */}
                 <div style={{
                     padding: '18px 0', display: 'flex', justifyContent: 'center',
                     borderBottom: `1px solid ${colors.sidebarBorder}`,
                 }}>
-                    <img src={logoPlutus} alt="Plutus365" style={{ height: 28, width: 'auto' }} />
+                    <img src={logoPlutusOscuro} alt="Plutus365" style={{ height: 18, width: 'auto', maxWidth: '100%' }} />
                 </div>
 
                 {/* Menú — icon-only, tooltip nativo de AntD al pasar el mouse */}
