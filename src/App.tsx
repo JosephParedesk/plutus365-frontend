@@ -38,6 +38,7 @@ import CuentaContablePage from './modules/accounting/CuentaContablePage'
 import AsientosContablesPage from './modules/accounting/AsientosContablesPage'
 import EstadosFinancierosPage from './modules/accounting/EstadosFinancierosPage'
 import CentrosCostoPage from './modules/accounting/CentrosCostoPage'
+import AdminEmpresasPage from './modules/admin/AdminEmpresasPage'
 
 // Sin esto, AntD (tooltips de orden en tablas, paginación, DatePicker) y dayjs
 // (nombres de mes/día del calendario) salen en inglés por defecto.
@@ -89,6 +90,7 @@ function App() {
               <Route path="/nomina/empleados" element={<EmpleadosPage />} />
               <Route path="/nomina/acumulados-iniciales" element={<AcumuladosInicialesPage />} />
               <Route path="/configuracion" element={<ConfiguracionPage />} />
+              <Route path="/admin/empresas" element={<AdminEmpresasPage />} />
             </Route>
           </Route>
         </Routes>

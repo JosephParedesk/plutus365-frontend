@@ -6,7 +6,7 @@ import {
     FileTextOutlined, FileDoneOutlined, UserOutlined, SettingOutlined,
     LogoutOutlined, BellOutlined, LockOutlined,
     ShopOutlined, SearchOutlined, PlusOutlined, BarChartOutlined,
-    BulbOutlined, BulbFilled
+    BulbOutlined, BulbFilled, CrownOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
@@ -214,6 +214,9 @@ export default function DashboardLayout() {
             { type: 'divider' as const },
             { key: 'perfil', icon: <UserOutlined />, label: 'Mi perfil' },
             { key: 'config', icon: <SettingOutlined />, label: 'Configuración de la empresa' },
+            ...(usuario?.rol === 'SUPERADMIN'
+                ? [{ key: 'admin', icon: <CrownOutlined />, label: 'Panel de super admin' }]
+                : []),
             { type: 'divider' as const },
             { key: 'logout', icon: <LogoutOutlined />, label: 'Cerrar sesión', danger: true },
         ],
@@ -223,6 +226,8 @@ export default function DashboardLayout() {
                 navigate('/login')
             } else if (key === 'config') {
                 navigate('/configuracion')
+            } else if (key === 'admin') {
+                navigate('/admin/empresas')
             }
         }
     }
